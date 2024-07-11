@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '870712446985',
     projectId: 'relearner1',
     storageBucket: 'relearner1.appspot.com',
-    iosBundleId: 'com.example.relearner',
+    iosBundleId: 'com.relearner.app',
   );
 }
