@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "870712446985",
+    "project_id": "relearner1",
+    "storage_bucket": "relearner1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:870712446985:android:06d6dc5a5f4ccb9cff68d8",
+        "android_client_info": {
+          "package_name": "com.relearner.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk2teaGMMRXgkqhQKgeRsj96HP6fdpCsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
