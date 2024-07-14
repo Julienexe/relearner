@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:trial_1/appstate/app_state.dart';
-import 'package:trial_1/constants/routes.dart';
-import 'package:trial_1/models/user_model.dart';
+import 'package:relearner/modules/general_modules.dart';
+// import 'package:trial_1/appstate/app_state.dart';
+// import 'package:trial_1/constants/routes.dart';
+// import 'package:trial_1/models/user_model.dart';
 
-const TextStyle defaultTextStyle = TextStyle(
-    fontFamily: 'Arial',
-    fontWeight: FontWeight.w500,
-    color: Color.fromARGB(255, 134, 133, 133));
 
-const themeColor = Color.fromARGB(255, 64, 120, 166);
-
-TextStyle bannerTextStyle = defaultTextStyle.copyWith(
-  fontSize: 20,
-  color: themeColor,
-  fontWeight: FontWeight.bold,
-);
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -126,11 +116,11 @@ class _LoginPageState extends State<LoginPage> {
               )));
               await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
               
-              UserProfile user = await AppState().readUserProfileFromFirestore();
+              //UserProfile user = await AppState().readUserProfileFromFirestore();
 
-              Navigator.of(context).pushNamedAndRemoveUntil(homeRoute,
+              Navigator.of(context).pushNamedAndRemoveUntil("home",
               (route) => false,
-              arguments: user
+              //arguments: user
              
             );
             }catch(e){
@@ -176,7 +166,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed(registerRoute);
+                    .pushNamed("register");
               },
               style: ButtonStyle(
                 foregroundColor: WidgetStateProperty.all(

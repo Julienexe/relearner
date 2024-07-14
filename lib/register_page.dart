@@ -1,9 +1,9 @@
 import 'package:dob_input_field/dob_input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:trial_1/constants/routes.dart';
-import 'package:trial_1/models/user_model.dart';
-import 'package:trial_1/modules/general_modules.dart';
+// import 'package:trial_1/constants/routes.dart';
+// import 'package:trial_1/models/user_model.dart';
+import 'package:relearner/modules/general_modules.dart';
 
 
 
@@ -84,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
           TextField(
             controller: _firstname,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'First Name',
               labelStyle: defaultTextStyle,
               prefixIcon: Icon(Icons.book),
@@ -98,7 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           TextField(
             controller: _lastname,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Last Name',
               labelStyle: defaultTextStyle,
               prefixIcon: Icon(Icons.book),
@@ -117,7 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
             decoration: const InputDecoration(
               labelText: 'Email',
               labelStyle: defaultTextStyle,
-              prefixIcon: const Icon(Icons.email),
+              prefixIcon: Icon(Icons.email),
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black, width: 5.0),
               ),
@@ -128,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           TextField(
             controller: _country,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Country',
               labelStyle: defaultTextStyle,
               prefixIcon: Icon(Icons.flag),
@@ -207,21 +207,22 @@ class _RegisterPageState extends State<RegisterPage> {
               final user = FirebaseAuth.instance.currentUser;
               await user?.sendEmailVerification();
               //create user profile for on app data usage  
-              final userProfile = 
-              UserProfile(
-                uid: FirebaseAuth.instance.currentUser!.uid,
-                email: email,
-                dateOfBirth: _date_of_birth,
-                country: _country.text,
-                firstName: _firstname.text,
-                lastName: _lastname.text,
-                accountType: 'Student',
-                enrolled: false,
-              );
+              // final userProfile = 
+              // UserProfile(
+              //   uid: FirebaseAuth.instance.currentUser!.uid,
+              //   email: email,
+              //   dateOfBirth: _date_of_birth,
+              //   country: _country.text,
+              //   firstName: _firstname.text,
+              //   lastName: _lastname.text,
+              //   accountType: 'Student',
+              //   enrolled: false,
+              // );
               
               //send user profile to next page
-              Navigator.of(context).pushNamed(accountTypeRoute,
-              arguments: userProfile,
+              // ignore: use_build_context_synchronously
+              Navigator.of(context).pushNamed("account type",
+              //arguments: userProfile,
               );
             },
             style: ButtonStyle(
@@ -247,7 +248,7 @@ class _RegisterPageState extends State<RegisterPage> {
               const Text('Already have an account?'),
               TextButton(
                 onPressed: () {
-                   Navigator.of(context).pushNamedAndRemoveUntil(loginRoute,
+                   Navigator.of(context).pushNamedAndRemoveUntil("login",
             (route) => false
             );
                 },
