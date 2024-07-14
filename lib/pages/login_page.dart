@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:relearner/main.dart';
 import 'package:relearner/modules/general_modules.dart';
 // import 'package:trial_1/appstate/app_state.dart';
 // import 'package:trial_1/constants/routes.dart';
@@ -72,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
               labelText: 'Email',
               labelStyle: defaultTextStyle,
               prefixIcon: Icon(Icons.email),
-              border: const OutlineInputBorder(
+              border: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.black, width: 5.0),
               ),
             ),
@@ -104,29 +105,7 @@ class _LoginPageState extends State<LoginPage> {
             onPressed: () async{
             final email = _email.text;
             final password = _password.text;
-            try{
-              //show login snackbar
-              ScaffoldMessenger
-              .of(context).showSnackBar(const SnackBar(content: Row(
-                children: [
-                  Text('Logging you in', style: defaultTextStyle,),
-                  Spacer(),
-                  CircularProgressIndicator()
-                ],
-              )));
-              await FirebaseAuth.instance.signInWithEmailAndPassword(email: email, password: password);
-              
-              //UserProfile user = await AppState().readUserProfileFromFirestore();
-
-              Navigator.of(context).pushNamedAndRemoveUntil("home",
-              (route) => false,
-              //arguments: user
-             
-            );
-            }catch(e){
-              //show the error on a snackbar
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
-            }
+            appState.loginSequence(email, password, context);
             
             },
             style: ButtonStyle(
@@ -166,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
             child: TextButton(
               onPressed: () {
                 Navigator.of(context)
-                    .pushNamed("register");
+                    .pushNamed("/register");
               },
               style: ButtonStyle(
                 foregroundColor: WidgetStateProperty.all(
@@ -206,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 //google icon
-                Image.asset('assets/images/google-color.png', height: 20, width: 20),
+                Image.asset('assets/img/google-color.png', height: 20, width: 20),
                 const SizedBox(
                   width: 3,
                 ),
@@ -240,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 //google icon
-                Image.asset('assets/images/apple.png', height: 20, width: 20),
+                Image.asset('assets/img/apple.png', height: 20, width: 20),
                 const SizedBox(
                   width: 3,
                 ),
