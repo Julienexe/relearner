@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relearner/modules/general_modules.dart';
 import 'package:relearner/pages/dashboard_page.dart';
 import 'package:relearner/pages/home_page.dart';
 import 'package:relearner/pages/profile_page.dart';
@@ -17,8 +18,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'ReLearner',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 23, 108, 255)),
+        colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
         useMaterial3: true,
+        primaryColor: themeColor 
       ),
       home: const LandingPage(),
     );
@@ -40,15 +42,15 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('reLearner')),
+      appBar: AppBar(title: Text('reLearner',style: bannerTextStyle,)),
       drawer: const AppDrawer(),
       body: Center(
         child: IndexedStack(
           index: _selectedIndex,
-          children: const <Widget>[
+          children: <Widget>[
             HomePage(),
-            DashboardPage(),
-            ProfilePage(),
+            const DashboardPage(),
+            const ProfilePage(),
           ],
         ),
       ),
