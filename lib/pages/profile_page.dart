@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relearner/modules/general_modules.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -31,7 +32,7 @@ class ProfilePage extends StatelessWidget {
                         onPressed: () {},
                         heroTag: 'follow',
                         elevation: 0,
-                        label: const Text("Follow"),
+                        label: const Text("Progress"),
                         backgroundColor: const Color.fromARGB(255, 57, 182, 240),
                         icon: const Icon(Icons.person_add_alt_1),
                       ),
@@ -41,7 +42,7 @@ class ProfilePage extends StatelessWidget {
                         heroTag: 'mesage',
                         elevation: 0,
                         backgroundColor: const Color.fromARGB(255, 57, 182, 240),
-                        label: const Text("Message"),
+                        label: const Text("Testimonial"),
                         icon: const Icon(Icons.message_rounded),
                       ),
                     ],
@@ -62,8 +63,9 @@ class _ProfileInfoRow extends StatelessWidget {
   const _ProfileInfoRow();
 
   final List<ProfileInfoItem> _items = const [
-    ProfileInfoItem("Courses", 3),
-    ProfileInfoItem("Followers", 120),
+    ProfileInfoItem("Modules", 3),
+    ProfileInfoItem("Date of Birth", 120),
+    ProfileInfoItem("Location", 120),
   ];
 
   @override
@@ -101,6 +103,7 @@ class _ProfileInfoRow extends StatelessWidget {
           ),
           Text(
             item.title,
+            style: defaultTextStyle.copyWith(fontSize: 18),
             // style: Theme.of(context).textTheme.caption,
           )
         ],
