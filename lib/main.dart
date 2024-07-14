@@ -1,12 +1,24 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:relearner/appState/appState.dart';
 import 'package:relearner/modules/general_modules.dart';
 import 'package:relearner/pages/dashboard_page.dart';
 import 'package:relearner/pages/home_page.dart';
+import 'package:relearner/pages/login_page.dart';
 import 'package:relearner/pages/profile_page.dart';
+import 'package:relearner/pages/register_page.dart';
 
-void main() {
+late AppState appState;
+void main() async {
+  appState = AppState();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  appState.initializeApp;
   runApp(const MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -14,16 +26,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ChangeNotifierProvider<AppState>(
+      create: (context) => appState,
+      child: MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ReLearner',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
         useMaterial3: true,
-        primaryColor: themeColor 
+        primaryColor: themeColor,
       ),
-      home: const LandingPage(),
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/home': (context) =>  const LandingPage(),
+        '/register': (context) => const RegisterPage(),
+      },
+      home: appState.currentUser != null ? const LandingPage(): const LoginPage(),
+      ),
     );
+     
   }
 }
 
@@ -112,6 +133,7 @@ class AppDrawer extends StatelessWidget {
               leading: const Icon(Icons.logout),
               title: const Text("Logout"),
               onTap: () {
+                appState.logoutSequence(context);
                 //log user out
                
               },
