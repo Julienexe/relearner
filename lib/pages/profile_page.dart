@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:relearner/main.dart';
 import 'package:relearner/modules/general_modules.dart';
 
+var user = appState.userModel;
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -18,12 +20,13 @@ class ProfilePage extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Sentamu John",
+                    "${user?.firstname} ${user?.lastname}",
                     style: Theme.of(context)
                         .textTheme
                         .headlineLarge
                         ?.copyWith(fontWeight: FontWeight.bold),
                   ),
+                  Text('${user?.email}', style: defaultTextStyle,),
                   const SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +37,7 @@ class ProfilePage extends StatelessWidget {
                         elevation: 0,
                         label: const Text("Progress"),
                         backgroundColor: const Color.fromARGB(255, 57, 182, 240),
-                        icon: const Icon(Icons.person_add_alt_1),
+                        icon: const Icon(Icons.grade),
                       ),
                       const SizedBox(width: 16.0),
                       FloatingActionButton.extended(
@@ -48,7 +51,7 @@ class ProfilePage extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 16),
-                  const _ProfileInfoRow()
+                  _ProfileInfoRow()
                 ],
               ),
             ),
@@ -60,12 +63,12 @@ class ProfilePage extends StatelessWidget {
 }
 
 class _ProfileInfoRow extends StatelessWidget {
-  const _ProfileInfoRow();
+  _ProfileInfoRow();
 
-  final List<ProfileInfoItem> _items = const [
-    ProfileInfoItem("Modules", 3),
-    ProfileInfoItem("Date of Birth", 120),
-    ProfileInfoItem("Location", 120),
+  final List<ProfileInfoItem> _items = [
+    ProfileInfoItem("Modules", "3"),
+    ProfileInfoItem("Date of Birth", "${user?.dateOfBirth.day}/${user?.dateOfBirth.month}/${user?.dateOfBirth.year}"),
+    ProfileInfoItem("Location", "${user?.country}"),
   ];
 
   @override
@@ -97,7 +100,7 @@ class _ProfileInfoRow extends StatelessWidget {
               item.value.toString(),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 19,
               ),
             ),
           ),
@@ -112,7 +115,7 @@ class _ProfileInfoRow extends StatelessWidget {
 
 class ProfileInfoItem {
   final String title;
-  final int value;
+  final String value;
   const ProfileInfoItem(this.title, this.value);
 }
 
