@@ -2,7 +2,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:relearner/models/user_model.dart';
 import 'package:relearner/modules/general_modules.dart';
@@ -14,7 +13,7 @@ class AppState extends ChangeNotifier {
   bool _isDark = false;
   bool get isDark => _isDark;
 
-  void initializeApp(){
+  void initializeApp() {
     setUser(FirebaseAuth.instance.currentUser);
     notifyListeners();
   }
@@ -45,7 +44,7 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  void logoutSequence(BuildContext context){
+  void logoutSequence(BuildContext context) {
     FirebaseAuth.instance.signOut();
     currentUser = null;
     userModel = null;
@@ -56,6 +55,7 @@ class AppState extends ChangeNotifier {
   Future<void> loginSequence(
       String email, String password, BuildContext context) async {
     try {
+      //show message to user
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Row(
         children: [
@@ -67,24 +67,19 @@ class AppState extends ChangeNotifier {
           CircularProgressIndicator()
         ],
       )));
+      //log user in and retrieve credentials
       final userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       setUser(userCredential.user);
       await getUserModelFromFirestore(userCredential.user!.uid);
+      //go to home page
       Navigator.pushReplacementNamed(context, '/home');
+      //exceptional(as always) exception handling below
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('No user found for that email.'),
-          ),
-        );
+        snackBarMessage("No user for that email", context);
       } else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Wrong password provided for that user.'),
-          ),
-        );
+         snackBarMessage("Wrong password provided", context);
       }
     }
   }
@@ -99,5 +94,65 @@ class AppState extends ChangeNotifier {
     await ref.set(user);
     userModel = user;
     notifyListeners();
+  }
+
+  Future<void> registerSequence(
+    BuildContext context,
+    String email,
+    String password,
+    String country,
+    String firstname,
+    String lastname,
+    String accountType,
+    DateTime dob,
+  ) async {
+    try {
+      //message to user
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Row(
+        children: [
+          Text(
+            'Creating your account',
+            style: defaultTextStyle,
+          ),
+          Spacer(),
+          CircularProgressIndicator()
+        ],
+      )));
+
+      //sign in user and store credentials
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      setUser(FirebaseAuth.instance.currentUser);
+      var userModel = UserModel(
+          firstname: firstname,
+          email: email,
+          lastname: lastname,
+          country: country,
+          dateOfBirth: dob,
+          accountType: accountType,
+          uid: currentUser!.uid);
+      await updateUserModel(userModel);
+
+      //go to home page
+      Navigator.pushReplacementNamed(context, "/home");
+      //below is exceptional exception handling
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "email-already-in-use":
+           snackBarMessage("Email already used", context);
+
+        case "invalid-email":
+           snackBarMessage("Invalid Email", context);        
+        default:
+          snackBarMessage("An error ocurred, try again", context);
+      }
+    }
+  }
+
+  snackBarMessage(String text, BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(text),
+    ));
   }
 }
