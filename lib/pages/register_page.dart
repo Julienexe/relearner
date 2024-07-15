@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:trial_1/constants/routes.dart';
 // import 'package:trial_1/models/user_model.dart';
 import 'package:relearner/modules/general_modules.dart';
+import 'package:relearner/pages/account_type.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -201,7 +202,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 // //print(userCredential);
                 // //sending a verification email
                 final user = FirebaseAuth.instance.currentUser;
-                await user?.sendEmailVerification();
+               
                 //create user profile for on app data usage
                 // final userProfile =
                 // UserProfile(
@@ -217,9 +218,12 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 //send user profile to next page
                 // ignore: use_build_context_synchronously
-                Navigator.of(context).pushNamed(
-                  "account type",
-                  //arguments: userProfile,
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder:
+                  (context){
+                    return const AccountTypeSelection();
+                    } 
+                  )
                 );
               },
               style: ButtonStyle(
