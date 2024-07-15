@@ -42,38 +42,6 @@ Container curriculumBox(text) {
   );
 }
 
-// class Material3BottomNav extends StatelessWidget {
-//   Material3BottomNav({super.key});
-//   final _tab1navigatorKey = GlobalKey<NavigatorState>();
-//   final _tab2navigatorKey = GlobalKey<NavigatorState>();
-//   final _tab3navigatorKey = GlobalKey<NavigatorState>();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return PersistentBottomBarScaffold(
-//       items: [
-//         PersistentTabItem(
-//           tab:  const Homepage(),
-//           icon: Icons.home,
-//           title: 'Home',
-//           navigatorkey: _tab1navigatorKey,
-//         ),
-//         PersistentTabItem(
-//           tab: const DashboardPage(),
-//           icon: Icons.search,
-//           title: 'Search',
-//           navigatorkey: _tab2navigatorKey,
-//         ),
-//         PersistentTabItem(
-//           tab: const ProfilePage1(),
-//           icon: Icons.person,
-//           title: 'Profile',
-//           navigatorkey: _tab3navigatorKey,
-//         ),
-//       ],
-//     );
-//   }
-// }
 
 //homepage reusable widgets
 // class CurrentModule extends StatelessWidget {
@@ -113,7 +81,7 @@ Container curriculumBox(text) {
             ),
           ),
           const Text(
-            ' Select one of the packages below to get started',
+            ' Select one of the packages to get started',
             style: defaultTextStyle,
           )
         ]);
