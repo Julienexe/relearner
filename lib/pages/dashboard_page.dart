@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:relearner/main.dart';
 import 'package:relearner/modules/general_modules.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -6,7 +7,7 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const LearningDashboard();
+    return appState.userModel!.enrolled? const LearningDashboard():notEnrolledColumn();
   }
 }
 
