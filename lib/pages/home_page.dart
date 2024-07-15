@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:relearner/main.dart';
+import 'package:relearner/models/user_model.dart';
 import 'package:relearner/modules/general_modules.dart';
-import 'package:relearner/pages/login_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -13,6 +14,7 @@ class _HomePageState extends State<HomePage> {
   
   @override
   Widget build(BuildContext context) {
+    UserModel user = appState.userModel!;
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -20,7 +22,7 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hi Julian,',
+              'Hi ${user.firstname},',
               style: bannerTextStyle,
             ),
             const SizedBox(height: 8),
@@ -45,34 +47,7 @@ class _HomePageState extends State<HomePage> {
                     
                     const SizedBox(width: 16),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Single Module: The comprehensive guide',
-                            style: bannerTextStyle.copyWith(fontSize: 19),
-                          ),
-                          const SizedBox(height: 8),
-                          const Text('Course Progress',style: defaultTextStyle,),
-                          const SizedBox(height: 4),
-                          const LinearProgressIndicator(value: 0.0),
-                          const SizedBox(height: 8),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: ElevatedButton(
-                              onPressed: () {},
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text('Continue Learning',style: TextStyle(color: themeColor),),
-                                  const SizedBox(width: 8),
-                                  const Icon(Icons.arrow_forward,color: themeColor,),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      child: appState.userModel!.enrolled? enrolledColumn() : notEnrolledColumn(),
                     ),
                   ],
                 ),
@@ -117,6 +92,37 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Column enrolledColumn() {
+    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Single Module: The comprehensive guide',
+                          style: bannerTextStyle.copyWith(fontSize: 19),
+                        ),
+                        const SizedBox(height: 8),
+                        const Text('Course Progress',style: defaultTextStyle,),
+                        const SizedBox(height: 4),
+                        const LinearProgressIndicator(value: 0.0),
+                        const SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            child: const Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text('Continue Learning',style: TextStyle(color: themeColor),),
+                                SizedBox(width: 8),
+                                Icon(Icons.arrow_forward,color: themeColor,),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
   }
 
   Widget _buildPackageCard(String title) {
