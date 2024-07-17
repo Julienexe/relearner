@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:relearner/appState/appState.dart';
 import 'package:relearner/modules/general_modules.dart';
+import 'package:relearner/pages/account_type.dart';
 import 'package:relearner/pages/dashboard_page.dart';
 import 'package:relearner/pages/home_page.dart';
 import 'package:relearner/pages/login_page.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/home': (context) =>  const LandingPage(),
         '/register': (context) => const RegisterPage(),
+        '/account': (context) => const AccountTypeSelection(),
       },
       home: appState.currentUser != null ? const LandingPage(): const LoginPage(),
       ),
