@@ -12,6 +12,7 @@ const TextStyle defaultTextStyle = TextStyle(
     color: Color.fromARGB(255, 134, 133, 133));
 
 const themeColor = Color.fromARGB(255, 23, 111, 174);
+const secondaryColor = Color.fromARGB(255, 134, 133, 133);
 
 TextStyle bannerTextStyle = defaultTextStyle.copyWith(
   
@@ -77,11 +78,12 @@ Container curriculumBox(text) {
             child: Text(
               'You are not currently enrolled in a module',
               textAlign: TextAlign.center,
-              style: bannerTextStyle,
+              style: bannerTextStyle.copyWith(fontSize: 20),
             ),
           ),
           const Text(
             ' Select one of the packages to get started',
+            textAlign: TextAlign.center,
             style: defaultTextStyle,
           )
         ]);
