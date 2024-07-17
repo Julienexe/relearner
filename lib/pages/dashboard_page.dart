@@ -7,7 +7,12 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return appState.userModel!.enrolled? const LearningDashboard():notEnrolledColumn();
+    return appState.userModel!.enrolled? const LearningDashboard():Center(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        height: 300,
+        child: notEnrolledColumn()),
+    );
   }
 }
 
