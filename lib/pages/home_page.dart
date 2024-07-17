@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:relearner/main.dart';
 import 'package:relearner/models/user_model.dart';
+import 'package:relearner/modules/accordions.dart';
 import 'package:relearner/modules/general_modules.dart';
 
 
@@ -10,7 +11,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String selectedCurriculum = 'Curriculum';
   
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,18 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Image.network(
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        }
+                        return CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        );
+                      },
+
                       'https://via.placeholder.com/150',
                       width: 100,
                       height: 100,
@@ -60,7 +72,7 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 8),
             SizedBox(
-              height: 150,
+              height: 155,
               child: ListView(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -73,21 +85,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             const SizedBox(height: 16),
-            DropdownButton<String>(
-              value: selectedCurriculum,
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedCurriculum = newValue!;
-                });
-              },
-              items: <String>['Curriculum', 'Option 1', 'Option 2', 'Option 3']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
+            const Accordions(),
           ],
         ),
       ),
@@ -130,7 +128,7 @@ class _HomePageState extends State<HomePage> {
       elevation: 2,
       child: Container(
         width: 113,
-        height: 150,
+        height: 155,
         padding: const EdgeInsets.only(
           top: 8,
           left: 6,
