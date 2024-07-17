@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:relearner/models/courses_model.dart';
 import 'package:relearner/models/user_model.dart';
 import 'package:relearner/modules/general_modules.dart';
 
@@ -82,6 +83,9 @@ class AppState extends ChangeNotifier {
          snackBarMessage("Wrong password provided", context);
       }
     }
+    on Exception catch (e) {
+      snackBarMessage("An error ocurred, try again", context);
+    }
   }
 
   Future<void> updateUserModel(UserModel user) async {
@@ -154,5 +158,12 @@ class AppState extends ChangeNotifier {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(text),
     ));
+  }
+
+  Future<List<CourseModel>> getCourses()async{
+    var db = FirebaseFirestore.instance;
+    final ref = db.collection('Module');
+    var data = await ref.get() ;
+    return CourseModel.fromFirestoreList(data);
   }
 }
