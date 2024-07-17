@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class AccountTypeSelection extends StatefulWidget {
   const AccountTypeSelection({super.key});
 
@@ -27,6 +26,8 @@ class _AccountTypeSelectionState extends State<AccountTypeSelection> {
 
   @override
   Widget build(BuildContext context) {
+    //final creds = ModalRoute.of(context)!.settings.arguments as List<String>;
+    
     return Scaffold(
       backgroundColor: Colors.grey[200],
       body: Column(

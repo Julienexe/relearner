@@ -196,34 +196,23 @@ class _RegisterPageState extends State<RegisterPage> {
               onPressed: () async {
                 final email = _email.text;
                 final password = _password.text;
-                //create user exception handling coming in later
-                await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                    email: email, password: password);
-                // //print(userCredential);
-                // //sending a verification email
-                final user = FirebaseAuth.instance.currentUser;
-               
-                //create user profile for on app data usage
-                // final userProfile =
-                // UserProfile(
-                //   uid: FirebaseAuth.instance.currentUser!.uid,
-                //   email: email,
-                //   dateOfBirth: _date_of_birth,
-                //   country: _country.text,
-                //   firstName: _firstname.text,
-                //   lastName: _lastname.text,
-                //   accountType: 'Student',
-                //   enrolled: false,
-                // );
+                final firstName = _firstname.text;
+                final lastName = _lastname.text;
+                final country = _country.text;
 
-                //send user profile to next page
                 // ignore: use_build_context_synchronously
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder:
-                  (context){
-                    return const AccountTypeSelection();
-                    } 
-                  )
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                        const AccountTypeSelection(),
+                    settings: RouteSettings(arguments: [
+                      email,
+                      password,
+                      firstName,
+                      lastName,
+                      country
+                    ]),
+                  ),
                 );
               },
               style: ButtonStyle(
