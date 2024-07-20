@@ -32,6 +32,7 @@ class _AccordionzState extends State<Accordionz> {
       openAndCloseAnimation: true,
       children: [
         AccordionSection(
+          isOpen: true,
           contentBorderColor: secondaryColor,
           headerBorderRadius: 30,
           contentBorderRadius: 30,
@@ -41,9 +42,10 @@ class _AccordionzState extends State<Accordionz> {
           headerBackgroundColor: const Color.fromARGB(124, 255, 255, 255),
           rightIcon: const Icon(Icons.class_),
           headerBorderColor: secondaryColor,
-          header: const Text(
+          header: Text(
             'Modules',
-            style: defaultTextStyle,
+            style: defaultTextStyle.copyWith(
+                fontSize: 20, fontWeight: FontWeight.bold),
           ),
           content: FutureBuilder<List<CourseModel>>(
               future: appState.getCourses(),
@@ -62,13 +64,20 @@ class _AccordionzState extends State<Accordionz> {
   }
 
   SizedBox courses(courses) {
+    appState.setCourses(courses);
     return SizedBox(
       height: 175,
       child: ListView.builder(
           shrinkWrap: true,
           itemCount: courses.length,
           itemBuilder: (context, index) {
-            return curriculumBox(courses[index].name);
+            return GestureDetector(
+              child: curriculumBox(courses[index].name),
+              onTap: () {
+              appState.setCurrentCourse(courses[index]);
+              Navigator.pushNamed(context, '/course', 
+              );
+            });
           }),
     );
   }
