@@ -7,6 +7,7 @@ import 'package:relearner/pages/account_type.dart';
 import 'package:relearner/pages/dashboard_page.dart';
 import 'package:relearner/pages/home_page.dart';
 import 'package:relearner/pages/login_page.dart';
+import 'package:relearner/pages/module_detail.dart';
 import 'package:relearner/pages/profile_page.dart';
 import 'package:relearner/pages/register_page.dart';
 
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) =>  const LandingPage(),
         '/register': (context) => const RegisterPage(),
         '/account': (context) => const AccountTypeSelection(),
+        '/course': (context) => LearningPage(),
       },
       home: appState.currentUser != null ? const LandingPage(): const LoginPage(),
       ),
