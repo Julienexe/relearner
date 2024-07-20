@@ -100,7 +100,7 @@ class _ProfileInfoRow extends StatelessWidget {
               item.value.toString(),
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 19,
+                fontSize: 18,
               ),
             ),
           ),
