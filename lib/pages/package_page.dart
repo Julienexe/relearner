@@ -69,28 +69,17 @@ class PackagePage extends StatelessWidget {
                 const FeatureListItem(text: 'Course videos and readings'),
                 const FeatureListItem(text: 'Downloadable resources'),
                 const SizedBox(height: 24),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 32, vertical: 16),
-                      foregroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                    ),
-                    child: Text(
-                      'ENROLL FOR THIS PACKAGE',
-                      style: bannerTextStyle.copyWith(fontSize: 18),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          enrollMentPopup(context);
+        },
+        child: const Icon(Icons.add),
+      )
     );
   }
 }
@@ -130,4 +119,30 @@ List<MultiSelectCard> getCourses(){
     
   }
   return courses;
+}
+
+enrollMentPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('Enroll'),
+        content: const Text('Are you sure you want to enroll in this course?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      );
+    },
+  );
 }
