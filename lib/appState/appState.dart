@@ -10,6 +10,8 @@ import 'package:relearner/modules/general_modules.dart';
 class AppState extends ChangeNotifier {
   User? currentUser;
   UserModel? userModel;
+  List<CourseModel>? courses;
+  CourseModel? course;
 
   bool _isDark = false;
   bool get isDark => _isDark;
@@ -160,10 +162,22 @@ class AppState extends ChangeNotifier {
     ));
   }
 
+  void setCurrentCourse(CourseModel course) {
+    this.course = course;
+    notifyListeners();
+  }
+
+  void setCourses(List<CourseModel> courses) {
+    this.courses = courses;
+    notifyListeners();
+  }
+
   Future<List<CourseModel>> getCourses()async{
     var db = FirebaseFirestore.instance;
     final ref = db.collection('Module');
     var data = await ref.get() ;
-    return CourseModel.fromFirestoreList(data);
+    courses = CourseModel.fromFirestoreList(data);
+    notifyListeners();
+    return courses!;
   }
 }
