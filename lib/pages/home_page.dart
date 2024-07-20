@@ -3,6 +3,7 @@ import 'package:relearner/main.dart';
 import 'package:relearner/models/user_model.dart';
 import 'package:relearner/modules/accordions.dart';
 import 'package:relearner/modules/general_modules.dart';
+import 'package:relearner/pages/package_page.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -124,30 +125,40 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildPackageCard(String title) {
-    return Card(
-      elevation: 2,
-      child: Container(
-        width: 113,
-        height: 155,
-        padding: const EdgeInsets.only(
-          top: 8,
-          left: 6,
-          right: 6,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const CircleAvatar(
-              radius: 40,
-              backgroundImage: NetworkImage('https://via.placeholder.com/150'),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: defaultTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 15 ),
-            ),
-          ],
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PackagePage(),
+          ),
+        );
+      },
+      child: Card(
+        elevation: 2,
+        child: Container(
+          width: 113,
+          height: 155,
+          padding: const EdgeInsets.only(
+            top: 8,
+            left: 6,
+            right: 6,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const CircleAvatar(
+                radius: 40,
+                backgroundImage: NetworkImage('https://via.placeholder.com/150'),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: defaultTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 15 ),
+              ),
+            ],
+          ),
         ),
       ),
     );
