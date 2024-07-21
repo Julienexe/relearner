@@ -69,47 +69,6 @@ class Relearner extends StatelessWidget {
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AppState>(
-      create: (context) => appState,
-      child: FutureBuilder(
-          future: appState.initializeApp(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'ReLearner',
-                theme: ThemeData(
-                  colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
-                  useMaterial3: true,
-                  primaryColor: themeColor,
-                ),
-                routes: {
-                  '/login': (context) => const LoginPage(),
-                  '/home': (context) => const LandingPage(),
-                  '/register': (context) => const RegisterPage(),
-                  '/account': (context) => const AccountTypeSelection(),
-                  '/course': (context) => const LearningPage(),
-                },
-                home: appState.currentUser != null
-                    ? const LandingPage()
-                    : const LoginPage(),
-              );
-            } else {
-              //loading screen
-              return const Scaffold(
-                body: CircularProgressIndicator(),
-              );
-            }
-          }),
-    );
-  }
-}
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
