@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:relearner/main.dart';
+import 'package:relearner/models/package_model.dart';
 import 'package:relearner/models/user_model.dart';
 import 'package:relearner/modules/accordions.dart';
 import 'package:relearner/modules/general_modules.dart';
@@ -74,15 +75,11 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 8),
             SizedBox(
               height: 155,
-              child: ListView(
+              child: ListView.builder(
+                itemCount: appState.packages!.length,
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
-
-                children: [
-                  _buildPackageCard('Single Module'),
-                  _buildPackageCard('Module Combination'),
-                  _buildPackageCard('Full Sequential'),
-                ],
+                itemBuilder: (context, index) =>  _buildPackageCard(appState.packages![index]),
               ),
             ),
             const SizedBox(height: 16),
@@ -124,9 +121,10 @@ class _HomePageState extends State<HomePage> {
                     );
   }
 
-  Widget _buildPackageCard(String title) {
+  Widget _buildPackageCard(PackageModel package) {
     return GestureDetector(
       onTap: () {
+        appState.setPackage(package);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -153,7 +151,7 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 8),
               Text(
-                title,
+                package.name,
                 textAlign: TextAlign.center,
                 style: defaultTextStyle.copyWith(fontWeight: FontWeight.bold, fontSize: 15 ),
               ),
