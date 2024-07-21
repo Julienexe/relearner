@@ -2,21 +2,34 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:relearner/models/courses_model.dart';
+import 'package:relearner/models/package_model.dart';
 import 'package:relearner/models/user_model.dart';
 import 'package:relearner/modules/general_modules.dart';
 
 class AppState extends ChangeNotifier {
   User? currentUser;
   UserModel? userModel;
+  List<CourseModel>? usercourses;
+  
+  //courses
   List<CourseModel>? courses;
   CourseModel? course;
+
+  //packages
+  PackageModel? package;
+  List<PackageModel>? packages;
+
 
   bool _isDark = false;
   bool get isDark => _isDark;
 
-  void initializeApp() {
+  Future<void> initializeApp() async{
+    await Firebase.initializeApp();
+    await getUserModelFromFirestore(FirebaseAuth.instance.currentUser!.uid);
+    packages = await getPackages();
     setUser(FirebaseAuth.instance.currentUser);
     notifyListeners();
   }
@@ -26,8 +39,10 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setUser(User? user) {
+  void setUser(User? user) async{
+
     currentUser = user;
+    
     notifyListeners();
   }
 
@@ -59,15 +74,15 @@ class AppState extends ChangeNotifier {
       String email, String password, BuildContext context) async {
     try {
       //show message to user
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
           content: Row(
         children: [
           Text(
             'Logging you in',
-            style: defaultTextStyle,
+            style: defaultTextStyle.copyWith(color: Colors.white),
           ),
-          Spacer(),
-          CircularProgressIndicator()
+          const Spacer(),
+          const CircularProgressIndicator()
         ],
       )));
       //log user in and retrieve credentials
@@ -172,6 +187,17 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<List<PackageModel>?> getPackages()async{
+    var db = FirebaseFirestore.instance;
+    var snapdata = PackageModel.fromFirestoreList(await db.collection("Packages").get(),); 
+    return snapdata;
+  }
+
+  void setPackage(PackageModel newpackage){
+    print("setting package");
+    package = newpackage;
+    notifyListeners();
+  }
   Future<List<CourseModel>> getCourses()async{
     var db = FirebaseFirestore.instance;
     final ref = db.collection('Module');
