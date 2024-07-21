@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:relearner/appState/appState.dart';
@@ -15,21 +14,16 @@ late AppState appState;
 void main() async {
   appState = AppState();
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  appState.initializeApp;
-  runApp(const MyApp());
+
+  runApp(const Main());
 }
 
+class Main extends StatelessWidget {
+  const Main({super.key});
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AppState>(
-      create: (context) => appState,
-      child: MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ReLearner',
       theme: ThemeData(
@@ -39,19 +33,83 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/login': (context) => const LoginPage(),
-        '/home': (context) =>  const LandingPage(),
+        '/home': (context) => const LandingPage(),
         '/register': (context) => const RegisterPage(),
         '/account': (context) => const AccountTypeSelection(),
-        '/course': (context) => LearningPage(),
+        '/course': (context) => const LearningPage(),
       },
-      home: appState.currentUser != null ? const LandingPage(): const LoginPage(),
-      ),
+      home: const Relearner(),
     );
-     
   }
 }
 
+class Relearner extends StatelessWidget {
+  const Relearner({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AppState>(
+      create: (context) => appState,
+      child: FutureBuilder(
+        future: appState.initializeApp(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return appState.currentUser != null
+                ? const LandingPage()
+                : const LoginPage();
+          }else{
+            return const Scaffold(
+              body:
+            Center(child: CircularProgressIndicator()),
+              ) ;
+          }
+        },
+      ),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<AppState>(
+      create: (context) => appState,
+      child: FutureBuilder(
+          future: appState.initializeApp(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                title: 'ReLearner',
+                theme: ThemeData(
+                  colorScheme: ColorScheme.fromSeed(seedColor: themeColor),
+                  useMaterial3: true,
+                  primaryColor: themeColor,
+                ),
+                routes: {
+                  '/login': (context) => const LoginPage(),
+                  '/home': (context) => const LandingPage(),
+                  '/register': (context) => const RegisterPage(),
+                  '/account': (context) => const AccountTypeSelection(),
+                  '/course': (context) => const LearningPage(),
+                },
+                home: appState.currentUser != null
+                    ? const LandingPage()
+                    : const LoginPage(),
+              );
+            } else {
+              //loading screen
+              return const Scaffold(
+                body: CircularProgressIndicator(),
+              );
+            }
+          }),
+    );
+  }
+}
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -62,11 +120,16 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int _selectedIndex = 0;
-  final BottomNavigationBarType _bottomNavType = BottomNavigationBarType.shifting;
+  final BottomNavigationBarType _bottomNavType =
+      BottomNavigationBarType.shifting;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('reLearner',style: bannerTextStyle,)),
+      appBar: AppBar(
+          title: Text(
+        'reLearner',
+        style: bannerTextStyle,
+      )),
       drawer: const AppDrawer(),
       body: Center(
         child: IndexedStack(
@@ -122,14 +185,13 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
             // Categories with Dropdown
-            
+
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text("Settings"),
               onTap: () {
                 Navigator.pop(context);
                 // go to settings page
-               
               },
             ),
             ListTile(
@@ -138,7 +200,6 @@ class AppDrawer extends StatelessWidget {
               onTap: () {
                 appState.logoutSequence(context);
                 //log user out
-               
               },
             ),
           ],
