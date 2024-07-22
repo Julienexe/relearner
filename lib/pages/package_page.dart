@@ -40,40 +40,56 @@ class PackagePage extends StatelessWidget {
                     ],
                   ),
                   packageDescription(package),
-                  const SizedBox(height: 1),
-                  package.name == "Single Module"
-                      ? Text('Select a module to learn', style: bannerTextStyle)
-                      : package.name == "Module Combination"
-                          ? Text('Select modules to learn',
-                              style: bannerTextStyle)
-                          : Text('Curated Modules', style: bannerTextStyle),
-                  SizedBox(
-                    height: 350,
-                    child: MultiSelectCheckList(
-                        maxSelectableCount: package.name == "Single Module"
-                            ? 1
-                            : package.name == "Module Combination"
-                                ? 4
-                                : appState.courses!.length,
-                        itemsDecoration: 
-                        MultiSelectDecorations(
-                          disabledDecoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(6),
+                  
+                  Card(
+                    elevation: 2,
+                    
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          package.name == "Single Module"
+                              ? Text('Select a module to learn', style: bannerTextStyle)
+                              : package.name == "Module Combination"
+                                  ? Text('Select modules to learn',
+                                      style: bannerTextStyle)
+                                  : Text('Curated Modules', style: bannerTextStyle),
+                          const SizedBox(
+                            height: 4,
                           ),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: themeColor),
-                            borderRadius: BorderRadius.circular(6),
+                          SizedBox(
+                            height: 400,
+                            child: MultiSelectCheckList(
+                                maxSelectableCount: package.name == "Single Module"
+                                    ? 1
+                                    : package.name == "Module Combination"
+                                        ? 4
+                                        : appState.courses!.length,
+                                itemsDecoration: 
+                                MultiSelectDecorations(
+                                  disabledDecoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey,width: 2),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: themeColor,width: 2),
+                                    borderRadius: BorderRadius.circular(6),
+                                    
+                                  ),
+                                ),
+                                textStyles: MultiSelectTextStyles(
+                                    selectedTextStyle:
+                                        bannerTextStyle.copyWith(fontSize: 17),
+                                    textStyle: defaultTextStyle.copyWith(fontSize: 17)),
+                                items: [
+                                  ...getCourses(package),
+                                ],
+                                onChange: (allSelectedItems, selectedItem) {}),
                           ),
-                        ),
-                        textStyles: MultiSelectTextStyles(
-                            selectedTextStyle:
-                                bannerTextStyle.copyWith(fontSize: 17),
-                            textStyle: defaultTextStyle.copyWith(fontSize: 17)),
-                        items: [
-                          ...getCourses(package),
                         ],
-                        onChange: (allSelectedItems, selectedItem) {}),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 24),
                 ],
@@ -140,7 +156,7 @@ List<CheckListCard> getCourses(PackageModel package) {
         selected: package.name == "Full Sequential" ? true : false,
         enabled: package.name == "Full Sequential" ? false : true,
         value: course.name,
-        title: Text(course.name),
+        title: Text(course.name,),
         subtitle: Text('${course.description.characters.take(50)}...'),
       ));
     }
