@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:relearner/main.dart';
 import 'package:relearner/modules/general_modules.dart';
 // import 'package:trial_1/appstate/app_state.dart';
